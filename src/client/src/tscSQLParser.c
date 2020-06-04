@@ -1039,7 +1039,7 @@ int32_t setObjFullName(char* fullName, const char* account, SSQLToken* pDB, SSQL
 
   /* db name is not specified, the tableName dose not include db name */
   if (pDB != NULL) {
-    if (pDB->n > TSDB_DB_NAME_LEN) {
+    if (pDB->n >= TSDB_DB_NAME_LEN) {
       return TSDB_CODE_TSC_INVALID_SQL;
     }
 
@@ -1058,7 +1058,7 @@ int32_t setObjFullName(char* fullName, const char* account, SSQLToken* pDB, SSQL
       }
     } else {  // pDB == NULL, the db prefix name is specified in tableName
       /* the length limitation includes tablename + dbname + sep */
-      if (tableName->n > TSDB_TABLE_NAME_LEN + TSDB_DB_NAME_LEN + tListLen(TS_PATH_DELIMITER)) {
+      if (tableName->n > (TSDB_TABLE_NAME_LEN - 1) + (TSDB_DB_NAME_LEN - 1) + sizeof(TS_PATH_DELIMITER)) {
         return TSDB_CODE_TSC_INVALID_SQL;
       }
     }
@@ -2200,7 +2200,7 @@ int32_t setShowInfo(SSqlObj* pSql, struct SSqlInfo* pInfo) {
     if (pDbPrefixToken->type != 0) {
       assert(pDbPrefixToken->n >= 0);
 
-      if (pDbPrefixToken->n > TSDB_DB_NAME_LEN) {  // db name is too long
+      if (pDbPrefixToken->n >= TSDB_DB_NAME_LEN) {  // db name is too long
         return invalidSqlErrMsg(tscGetErrorMsgPayload(pCmd), msg3);
       }
 
