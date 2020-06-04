@@ -117,8 +117,8 @@ typedef struct {
 } SDbInfo;
 
 typedef struct {
-  char name[TSDB_TABLE_NAME_LEN + 1];
-  char metric[TSDB_TABLE_NAME_LEN + 1];
+  char name[TSDB_TABLE_NAME_LEN];
+  char metric[TSDB_TABLE_NAME_LEN];
 } STableRecord;
 
 typedef struct {
